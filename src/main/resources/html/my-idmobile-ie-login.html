@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>MyiD</title>
+
+    <!--For iPhone,iPad, iPod-->
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-title" content=""/>
+    <meta name="format-detection" content="telephono=no"/>
+
+    <link rel="stylesheet" media="screen"
+          href="/assets/public-c180ee5fb2ff12489838c6fef7d5823ee768aac027b7559d3256ad29f3d9e13e.css"/>
+    <script src="/assets/vendor/modernizr.custom-c9b69fa4e224242a7bc4505a071a335265a28e2419c1d337edbcbeacbd68fa4a.js"></script>
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon" sizes="144x144" href="/images/icons/iD-icon-72@2x.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/images/icons/iD-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/images/icons/iD-icon-72.png">
+    <!--link rel="apple-touch-icon" href="/images/icons/project-icon.png"-->
+    <link rel="shortcut icon" href="/images/icons/favicon.ico">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="/assets/ie9-a19db31256a6e8c81a2da5988ad69f520039a1c52044e84d5816c0cada4cf2bb.js"></script>
+    <![endif]-->
+    <meta name="csrf-param" content="authenticity_token"/>
+    <meta name="csrf-token" content="MY_CSRF_TOKEN"/>
+
+    <script type='text/javascript'>
+        var onLoadMethods = [];
+    </script>
+</head>
+
+<body class="login">
+<div class="login bg-fixed"></div>
+<div class="page-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-xs-12 col-md-12 centered">
+                <h1 class="brand">
+                    <span class="hidden">MyiD</span>
+                </h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3 col-xs-12 col-md-4 col-md-offset-4">
+                <div class="form-wrapper">
+                    <div class="inner">
+                        <div id='flashbar'>
+                            <div class='alert alert-danger'>
+                                Please sign in
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            </div>
+                        </div>
+                        <form class="new_login" id="new_login" action="/login" accept-charset="UTF-8" method="post">
+                            <input name="utf8" type="hidden" value="&#x2713;"/>
+                            <input type="hidden" name="authenticity_token" value="FAKE_CSRF_TOKEN"/>
+                            <fieldset>
+                                <legend class=""></legend>
+                                <div class="form-group ">
+                                    <label class="sr-only" for="login_mobile_number">Mobile number</label>
+                                    <input class="form-control" placeholder="Mobile number" required="required"
+                                           type="text" name="login[mobile_number]" id="login_mobile_number"/>
+
+                                    <p class="help-block error-message"></p>
+                                </div>
+                                <div class="form-group ">
+                                    <label class="sr-only" for="login_password">Password</label>
+                                    <input class="form-control" placeholder="Password" required="required"
+                                           type="password" name="login[password]" id="login_password"/>
+
+                                    <p class="help-block error-message"></p>
+                                </div>
+                            </fieldset>
+                            <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+                            <div class="row">
+                                <div class="col-md-12 col-xs-12 col-sm-12">
+                                    <p class="forgot-password pull-right">
+                                        <a class="small" href="/accounts/forgotten-password">Forgot your password?</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row no-gutter">
+            <div class="col-sm-6 col-sm-offset-3 col-xs-12 col-md-4 col-md-offset-4">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="sign-up col-md-7">
+                            <p>Don’t have an account? <a target="_self" href="/register">Sign up</a></p>
+                            <p>Mobile Broadband Customer? <a target="_self" href="/mobile-broadband/register">Sign up
+                                Here</a></p>
+                        </div>
+                        <div class="sign-up col-md-5">
+                            <p class="pull-right">Having trouble? This site uses cookies, make sure cookies are allowed
+                                in your browser.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /container -->
+    <!--Footer-->
+    <div class="mastfoot navbar-fixed-bottom">
+        <div class="container-fluid">
+            <div class="inner">
+                <div class="row">
+                    <div class="row copyright">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <p>Copyright © 2016
+                                <span class="brand small">
+              </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="/assets/public-58202ec5eeb91d029a12acb7d352d7da89b2e15d4e9646184d1a03a9a6aa899f.js"></script>
+<!--Internet Explorer 10 in Windows 8 and Windows Phone 8-->
+<script>
+    if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
+        var msViewportStyle = document.createElement('style')
+        msViewportStyle.appendChild(
+                document.createTextNode(
+                        '@-ms-viewport{width:auto!important}'
+                )
+        )
+        document.querySelector('head').appendChild(msViewportStyle)
+    }
+</script>
+<!--Android stock browser select menus-->
+<script>
+    $(function () {
+        var nua = navigator.userAgent
+        var isAndroid = (nua.indexOf('Mozilla/5.0') > -1 && nua.indexOf('Android ') > -1 && nua.indexOf('AppleWebKit') > -1 && nua.indexOf('Chrome') === -1)
+        if (isAndroid) {
+            $('select.form-control').removeClass('form-control').css('width', '100%')
+        }
+    })
+</script>
+
+<script type='text/javascript'>
+    onLoadMethods.forEach(function (method) {
+        method();
+    });
+</script>
+</body>
+
+</html>
