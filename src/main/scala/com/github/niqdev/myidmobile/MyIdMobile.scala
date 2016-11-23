@@ -24,11 +24,27 @@ case class Minutes(total: String, used: String, left: String, validUntil: String
 
 case class Data(total: String, used: String, left: String, validUntil: String)
 
-case class PlanInfo(lastTopUp: LastTopUp, expire: Expire, balance: Balance, minutes: Minutes, data: Data)
+case class PlanInfo(lastTopUp: LastTopUp, expire: Expire, balance: Balance, minutes: Minutes, data: Data) {
+
+}
 
 /**
   * @author niqdev
   */
-class MyIdMobile(val mobileNumber: String, val password: String) {
+class MyIdMobile() {
+
+}
+
+// TODO enum prefix IE/UK
+case class MyIdCredential(prefix: String = "+353", mobileNumber: String, password: String) {
+
+  override def toString: String = s"$prefix|$mobileNumber|$password"
+}
+
+object MyIdMobile {
+
+  def accountInfo(credential: MyIdCredential): PlanInfo = ???
+
+  def activities(credential: MyIdCredential) = ???
 
 }
