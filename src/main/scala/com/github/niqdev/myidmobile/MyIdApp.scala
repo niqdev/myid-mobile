@@ -9,6 +9,7 @@ object MyIdApp extends App {
   val myIdCredential = MyIdCredential(mobileNumber = "", password = "")
   val myIdSession = MyIdMobile.login(myIdCredential)
 
+  /*
   val planInfo = MyIdMobile.accountInfo(myIdSession)
   logger.debug(planInfo.toString)
 
@@ -16,5 +17,6 @@ object MyIdApp extends App {
   logger.debug(planInfo.toString)
 
   MyIdMobile.logout(myIdSession)
+  */
 
 }
