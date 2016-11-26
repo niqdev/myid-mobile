@@ -1,50 +1,35 @@
 package com.github.niqdev.myidmobile
 
-trait Request {
-
-  def login(mobileNumber: String, password: String)
-
-  def refreshUser()
-
-  def home()
-
-  def activity()
-
-  def logout()
-
-}
-
-case class LastTopUp(date: String, amount: String)
-
-case class Expire(date: String)
-
-case class Balance(amount: String)
-
-case class Minutes(total: String, used: String, left: String, validUntil: String)
-
-case class Data(total: String, used: String, left: String, validUntil: String)
-
-case class PlanInfo(lastTopUp: LastTopUp, expire: Expire, balance: Balance, minutes: Minutes, data: Data) {
-
-}
+import com.typesafe.scalalogging.Logger
+import net.ruippeixotog.scalascraper.browser.JsoupBrowser
+import net.ruippeixotog.scalascraper.dsl.DSL._
+import net.ruippeixotog.scalascraper.scraper.ContentExtractors.attr
 
 /**
   * @author niqdev
   */
-class MyIdMobile() {
-
-}
-
-// TODO enum prefix IE/UK
-case class MyIdCredential(prefix: String = "+353", mobileNumber: String, password: String) {
-
-  override def toString: String = s"$prefix|$mobileNumber|$password"
-}
-
 object MyIdMobile {
 
-  def accountInfo(credential: MyIdCredential): PlanInfo = ???
+  val logger = Logger("MyIdMobile")
 
-  def activities(credential: MyIdCredential) = ???
+  // GET + POST
+  def login(credential: MyIdCredential): MyIdSession = {
+    val browser = JsoupBrowser()
+    //val docGetLogin = browser.get("https://my.idmobile.ie/login")
+    val docHtmlLogin = browser.parseResource("/html/my-idmobile-ie-login.html")
+
+    val authenticityToken: String = docHtmlLogin >> attr("content")("meta[name=csrf-token]")
+    logger.debug(authenticityToken)
+
+    MyIdSession("sessionId")
+  }
+
+  // refresh + home
+  def accountInfo(session: MyIdSession): PlanInfo = ???
+
+  // refresh + activity
+  def activities(session: MyIdSession) = ???
+
+  def logout(session: MyIdSession) = ???
 
 }
