@@ -1,98 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>MyiD | How I&#39;m doing</title>
-
-    <!--For iPhone,iPad, iPod-->
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-title" content=""/>
-    <meta name="format-detection" content="telephono=no" />
-
-    <link rel="stylesheet" media="screen" href="/assets/public-c180ee5fb2ff12489838c6fef7d5823ee768aac027b7559d3256ad29f3d9e13e.css" />
-    <script src="/assets/vendor/modernizr.custom-c9b69fa4e224242a7bc4505a071a335265a28e2419c1d337edbcbeacbd68fa4a.js"></script>
-
-    <!-- Fav and touch icons -->
-    <link rel="apple-touch-icon" sizes="144x144" href="/images/icons/iD-icon-72@2x.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/images/icons/iD-icon.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/images/icons/iD-icon-72.png">
-    <!--link rel="apple-touch-icon" href="/images/icons/project-icon.png"-->
-    <link rel="shortcut icon" href="/images/icons/favicon.ico">
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="/assets/ie9-a19db31256a6e8c81a2da5988ad69f520039a1c52044e84d5816c0cada4cf2bb.js"></script>
-    <![endif]-->
-    <meta name="csrf-param" content="authenticity_token" />
-    <meta name="csrf-token" content="MY_CSRF_TOKEN" />
-
-    <script type='text/javascript'>
-        var onLoadMethods = [];
-    </script>
-
+    <meta name="csrf-param" content="authenticity_token"/>
+    <meta name="csrf-token" content="MY_CSRF_TOKEN"/>
 </head>
 <body>
 <div class="page-wrapper">
     <div class="site-wrapper">
-        <header class="masthead clearfix">
-            <nav class="navbar navbar-default navbar-fixed-top">
-                <div class="container-fluid">
-                    <div class="cover-container">
-                        <!-- Brand and toggle get grouped for better mobile display -->
-                        <div class="navbar-header">
-                            <button id="right-menu" type="button" class="navbar-toggle collapsed" data-toggle="collapse" aria-expanded="false">
-                                <span class="sr-only">Toggle navigation</span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                            <a class="navbar-brand" href="/">
-                                <h1 class="brand">
-                                    <span class="hidden">MyiD</span>
-                                </h1>
-                            </a>
-                        </div>
-                        <!-- Collect the nav links, forms, and other content for toggling -->
-                        <div id="navbar" class="collapse navbar-collapse">
-                            <ul class="nav navbar-nav">
-                                <li class="active">
-                                    <a href="/"><i class="fa fa-tachometer fa-lg"></i>My iD</a>
-                                </li>
-                                <li class="">
-                                    <a href="/my-activity"><i class="fa fa-paper-plane-o fa-lg"></i>My activity</a>
-                                </li>
-                                <li class="">
-                                    <a target="blank" href="https://www.idmobile.ie/we-care/faqs"><i class="fa fa-life-ring fa-lg"></i>My iD Support</a>
-                                </li>
-                            </ul>
-                            <ul class="nav navbar-nav navbar-right">
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-cog fa-lg"></i> <span id="username"></span>
-                                        <!--Dropdown icon-->
-                                        <span class="glyphicon glyphicon-chevron-down"></span>
-                                    </a>
-                                    <ul class="dropdown-menu animated fadeIn">
-                                        <!-- <li><a href="#">My Profile</a></li>
-                                         <li><a href="#">My Account</a></li>
-                                         <li><a href="#">Do I need Help?</a></li>-->
-                                        <li><a href="https://idmobile.ie/about-us">About iD</a></li>
-                                        <li><a href="/logout">Log Out</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div><!-- /.navbar-collapse -->
-                    </div><!-- /.container-cover-->
-                </div><!-- /.container-fluid -->
-            </nav><!-- /container-fluid -->
-        </header><!--./masterhead-->
-
-
-
+        <header>HEADER</header>
         <div class="cover-container">
             <div class="row">
                 <div class="col-xs-12">
@@ -103,45 +18,45 @@
                     </div>
                 </div>
             </div>
-            <!-- prepaid_phase_2 -->
-
-            <div class="row"><div class="col-xs-12"><div class="text-message notice">Your last top up was on October 30th with €15.</div></div></div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="text-message notice">Your last top up was on October 30th with €15.</div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-xs-12">
                     <div class="main-container">
 
                         <div class="row content-section">
                             <div class="col-xs-12">
-
-          <span class="section-text">
-            Your iD Prepay will expire on <strong>30th November</strong>
-          </span>
-
+                                <span class="section-text">
+                                  Your iD Prepay will expire on <strong>30th November</strong>
+                                </span>
                                 <div class="row widget-section">
                                     <div class="col-xs-12 col-md-4 topup-button-hidden">
-                                        <!-- _balance.html -->
                                         <div class="mobile-plan-half-widget balance-widget">
-  <span class="widget-header">
-    Balance <span class="mobile-plan-balance">€9.93</span>
-  </span>
+                                            <span class="widget-header">
+                                              Balance <span class="mobile-plan-balance">€9.93</span>
+                                            </span>
                                             <div class="widget-error-full-width">
                                                 Out of allowance cost: €5.00
                                             </div>
                                         </div>
-
                                     </div>
                                     <div class="col-xs-12 col-md-4">
                                         <div class="mobile-plan-widget  minutes-widget">
-  <span class="widget-header">
-    300 Minutes
-  </span>
+                                            <span class="widget-header">
+                                              300 Minutes
+                                            </span>
                                             <div class="widget-subheader">
-                                                Valid until: 01/02/2016  </div>
+                                                Valid until: 01/02/2016
+                                            </div>
                                             <div class="minutes-used-section">
                                                 <div class="minutes-used-section-content">
                                                     What you've used
                                                     <div class="widget-completion-bar">
-                                                        <div class="widget-completion-bar-progress minutes" style="width: 0%">
+                                                        <div class="widget-completion-bar-progress minutes"
+                                                             style="width: 0%">
                                                             <span class="widget-compeltion-bar-progress-text">0 Minutes</span>
                                                         </div>
                                                     </div>
@@ -152,20 +67,21 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                     <div class="col-xs-12 col-md-4">
                                         <div class="mobile-plan-widget  data-widget">
-  <span class="widget-header">
-    30GB
-  </span>
+                                            <span class="widget-header">
+                                              30GB
+                                            </span>
                                             <div class="widget-subheader">
-                                                Valid until: 01/02/2016  </div>
+                                                Valid until: 01/02/2016
+                                            </div>
                                             <div class="data-used-section">
                                                 <div class="data-used-section-content">
                                                     What you've used
                                                     <div class="widget-completion-bar">
-                                                        <div class="widget-completion-bar-progress data" style="width: 1%">
+                                                        <div class="widget-completion-bar-progress data"
+                                                             style="width: 1%">
                                                             <span class="widget-compeltion-bar-progress-text">123 MB</span>
                                                         </div>
                                                     </div>
@@ -173,26 +89,19 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
-
-
-
                                 <div class="row widget-section">
                                     <div class="col-xs-12 col-md-4 col-md-offset-8">
                                         <a target="_blank" href="http://www.idmobile.ie/prepay-existing-customer">
                                             <div class="more-info-btn-widget grey-btn-bg">
                                                 More plan information
                                             </div>
-                                        </a>            </div>
+                                        </a>
+                                    </div>
                                 </div>
-
-
                             </div>
                         </div>
-
-
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="welcome-dash">
@@ -204,9 +113,9 @@
                         </div>
                         <div class="row content-section">
                             <div class="col-xs-12">
-          <span class="section-text">
-            Charges since 30th October 2016
-          </span>
+                                <span class="section-text">
+                                  Charges since 30th October 2016
+                                </span>
                                 <div class="row charges-section">
                                     <div class="col-xs-12">
                                         <div class="charges-bar yellow-bg">
@@ -220,7 +129,6 @@
                                                 €12.34
                                             </div>
                                         </div>
-
                                         <div class="charges-bar blue-bg">
                                             <div class="col-xs-12 col-md-4">
                                                 Data
@@ -232,7 +140,6 @@
                                                 €0.00
                                             </div>
                                         </div>
-
                                         <div class="charges-bar purple-bg">
                                             <div class="col-xs-12 col-md-4">
                                                 Texts
@@ -244,7 +151,6 @@
                                                 €0.15
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -252,72 +158,10 @@
                     </div>
                 </div>
             </div>
-
-            <div class="mastfoot ">
-                <div class="container-fluid">
-                    <div class="inner">
-                        <div class="row">
-                            <div class="row copyright">
-                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                    <p>Copyright © 2016
-                                        <span class="brand small">
-              </span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
-
+        <div>FOOTER</div>
     </div>
 </div>
-<script src="/assets/private-1ae394c2a46148ab13c4ab2b1729edd7f6a4f07caf84073843045672923fcb78.js"></script>
-
-<!--Internet Explorer 10 in Windows 8 and Windows Phone 8-->
-<script>
-    if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
-        var msViewportStyle = document.createElement('style')
-        msViewportStyle.appendChild(
-                document.createTextNode(
-                        '@-ms-viewport{width:auto!important}'
-                )
-        )
-        document.querySelector('head').appendChild(msViewportStyle)
-    }
-</script>
-<!--Android stock browser select menus-->
-<script>
-    $(function() {
-        var nua = navigator.userAgent
-        var isAndroid = (nua.indexOf('Mozilla/5.0') > -1 && nua.indexOf('Android ') > -1 && nua.indexOf('AppleWebKit') > -1 && nua.indexOf('Chrome') === -1)
-        if (isAndroid) {
-            $('select.form-control').removeClass('form-control').css('width', '100%')
-        }
-    })
-</script>
-<!--Sidebar menu-->
-<script src="/assets/vendor/jquery.sidr.min-b8cdace0a46355e1e3886ab126b6589db02855f08f1c8f84503c68052804b9aa.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#right-menu').sidr({
-            name: 'sidr-right',
-            side: 'right',
-            source:'#navbar'
-        });
-    });
-
-    //this code is close sidr menu if clicked outside  {optional}
-    $(document).bind("click", function () {
-        $.sidr('close', 'respNav');
-    });
-</script>
-
-<script type='text/javascript'>
-    onLoadMethods.forEach(function(method) { method(); });
-</script>
 <script type='text/javascript'>
     console.log('User Id: MY_USER_ID');
     console.log('Username: MY_USERNAME');
@@ -332,6 +176,5 @@
     console.log('Subscription Locked By: []');
     console.log('Eligible for PropRefresh Migration: false');
 </script>
-
 </body>
 </html>

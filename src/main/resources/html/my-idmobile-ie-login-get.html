@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="csrf-param" content="authenticity_token"/>
+    <meta name="csrf-token" content="MY_CSRF_TOKEN"/>
+</head>
+<body class="login">
+<div class="page-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-xs-12 col-md-12 centered">
+                <h1 class="brand">
+                    <span class="hidden">MyiD</span>
+                </h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3 col-xs-12 col-md-4 col-md-offset-4">
+                <div class="form-wrapper">
+                    <div class="inner">
+                        <div id='flashbar'>
+                            <div class='alert alert-danger'>
+                                Please sign in
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            </div>
+                        </div>
+                        <form class="new_login" id="new_login" action="/login" accept-charset="UTF-8" method="post">
+                            <input name="utf8" type="hidden" value="&#x2713;"/>
+                            <input type="hidden" name="authenticity_token" value="FAKE_CSRF_TOKEN"/>
+                            <fieldset>
+                                <legend class=""></legend>
+                                <div class="form-group ">
+                                    <label class="sr-only" for="login_mobile_number">Mobile number</label>
+                                    <input class="form-control" placeholder="Mobile number" required="required"
+                                           type="text" name="login[mobile_number]" id="login_mobile_number"/>
+
+                                    <p class="help-block error-message"></p>
+                                </div>
+                                <div class="form-group ">
+                                    <label class="sr-only" for="login_password">Password</label>
+                                    <input class="form-control" placeholder="Password" required="required"
+                                           type="password" name="login[password]" id="login_password"/>
+
+                                    <p class="help-block error-message"></p>
+                                </div>
+                            </fieldset>
+                            <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+                            <div class="row">
+                                <div class="col-md-12 col-xs-12 col-sm-12">
+                                    <p class="forgot-password pull-right">
+                                        <a class="small" href="/accounts/forgotten-password">Forgot your password?</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>FOOTER</div>
+</div>
+</body>
+</html>
