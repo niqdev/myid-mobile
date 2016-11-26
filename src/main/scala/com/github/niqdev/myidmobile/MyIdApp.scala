@@ -6,17 +6,12 @@ object MyIdApp extends App {
 
   val logger = Logger("MyIdApp")
 
-  val myIdCredential = MyIdCredential(mobileNumber = "", password = "")
-  val myIdSession = MyIdMobile.login(myIdCredential)
+  val myIdCredential = MyIdCredential(
+    mobileNumber = System.getenv("mobileNumber"),
+    password = System.getenv("password"))
 
-  /*
-  val planInfo = MyIdMobile.accountInfo(myIdSession)
-  logger.debug(planInfo.toString)
-
-  val activities = MyIdMobile.activities(myIdSession)
-  logger.debug(planInfo.toString)
-
-  MyIdMobile.logout(myIdSession)
-  */
+  val myIdMobile = MyIdMobile(myIdCredential)
+  val planInfo = myIdMobile.balance()
+  logger.debug(s"$planInfo")
 
 }
