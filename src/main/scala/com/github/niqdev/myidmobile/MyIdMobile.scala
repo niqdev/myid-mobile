@@ -19,12 +19,14 @@ case class MyIdMobile(credential: MyIdCredential) {
   private def login(): Unit = {
 
     def docGetLogin = browser.get(config.getString("url.login"))
+
     def docPostLogin(authenticityToken: String) = browser.post(config.getString("url.login"), Map(
       "authenticity_token" -> authenticityToken,
       "login[mobile_number]" -> credential.mobileNumber,
       "login[password]" -> credential.password,
       "utf8" -> "&#x2713;"
     ))
+
     def docRefresh = browser.get(config.getString("url.refresh"))
 
     val authenticityToken = docGetLogin >> attr("content")("meta[name=csrf-token]")
@@ -39,33 +41,30 @@ case class MyIdMobile(credential: MyIdCredential) {
   }
 
   def balance(): PlanInfo = {
-    //login()
-    //sleep
-    //def docGetBalance = browser.get(config.getString("url.balance"))
+    login()
+    sleep
 
-    val docHtmlBalance = browser.parseResource("/html/my-idmobile-ie-balance.html")
-    val expire = docHtmlBalance >> text(".section-text:first-child > strong")
-    val balance = docHtmlBalance >> text(".mobile-plan-balance")
+    val docGetBalance = browser.get(config.getString("url.balance"))
+
+    val expire = docGetBalance >> text(".section-text:first-child > strong")
+    val balance = docGetBalance >> text(".mobile-plan-balance")
 
     val minutes = Minutes(
-      docHtmlBalance >> text(".minutes-widget > .widget-header"),
-      docHtmlBalance >> text(".minutes > .widget-compeltion-bar-progress-text"),
-      docHtmlBalance >> text(".minutes-used-section-content > .remaining"),
-      docHtmlBalance >> text(".minutes-widget > .widget-subheader")
+      docGetBalance >> text(".minutes-widget > .widget-header"),
+      docGetBalance >> text(".minutes > .widget-compeltion-bar-progress-text"),
+      docGetBalance >> text(".minutes-used-section-content > .remaining"),
+      docGetBalance >> text(".minutes-widget > .widget-subheader")
     )
 
     val data = Data(
-      docHtmlBalance >> text(".data-widget > .widget-header"),
-      docHtmlBalance >> text(".data > .widget-compeltion-bar-progress-text"),
-      docHtmlBalance >> text(".data-used-section-content > .remaining"),
-      docHtmlBalance >> text(".data-widget > .widget-subheader")
+      docGetBalance >> text(".data-widget > .widget-header"),
+      docGetBalance >> text(".data > .widget-compeltion-bar-progress-text"),
+      docGetBalance >> text(".data-used-section-content > .remaining"),
+      docGetBalance >> text(".data-widget > .widget-subheader")
     )
 
     PlanInfo(expire, balance, minutes, data)
   }
-
-  // refresh + activity
-  def history() = ???
 
   def sleep = {
     Thread.sleep(1000)
