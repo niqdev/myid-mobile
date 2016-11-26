@@ -3,8 +3,8 @@ package com.github.niqdev.myidmobile
 import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.Logger
 import net.ruippeixotog.scalascraper.browser.JsoupBrowser
+import net.ruippeixotog.scalascraper.dsl.DSL.Extract._
 import net.ruippeixotog.scalascraper.dsl.DSL._
-import net.ruippeixotog.scalascraper.model.Document
 import net.ruippeixotog.scalascraper.scraper.ContentExtractors.attr
 
 /**
@@ -38,11 +38,30 @@ case class MyIdMobile(credential: MyIdCredential) {
     logger.debug(s"$credential|$sessionId")
   }
 
-  // refresh + home
-  def balance(): Document = {
-    login()
-    sleep
-    browser.get(config.getString("url.balance"))
+  def balance(): PlanInfo = {
+    //login()
+    //sleep
+    //def docGetBalance = browser.get(config.getString("url.balance"))
+
+    val docHtmlBalance = browser.parseResource("/html/my-idmobile-ie-balance.html")
+    val expire = docHtmlBalance >> text(".section-text:first-child > strong")
+    val balance = docHtmlBalance >> text(".mobile-plan-balance")
+
+    val minutes = Minutes(
+      docHtmlBalance >> text(".minutes-widget > .widget-header"),
+      docHtmlBalance >> text(".minutes > .widget-compeltion-bar-progress-text"),
+      docHtmlBalance >> text(".minutes-used-section-content > .remaining"),
+      docHtmlBalance >> text(".minutes-widget > .widget-subheader")
+    )
+
+    val data = Data(
+      docHtmlBalance >> text(".data-widget > .widget-header"),
+      docHtmlBalance >> text(".data > .widget-compeltion-bar-progress-text"),
+      docHtmlBalance >> text(".data-used-section-content > .remaining"),
+      docHtmlBalance >> text(".data-widget > .widget-subheader")
+    )
+
+    PlanInfo(expire, balance, minutes, data)
   }
 
   // refresh + activity
