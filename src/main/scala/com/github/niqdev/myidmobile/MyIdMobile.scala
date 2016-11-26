@@ -8,6 +8,12 @@ import net.ruippeixotog.scalascraper.dsl.DSL._
 import net.ruippeixotog.scalascraper.scraper.ContentExtractors.attr
 
 /**
+  * POST    https://my.idmobile.ie/login
+  * GET     https://my.idmobile.ie/refresh-user (302)
+  * GET     https://my.idmobile.ie
+  * GET     https://my.idmobile.ie/my-activity
+  * GET     https://my.idmobile.ie/logout (302)
+  *
   * @author niqdev
   */
 case class MyIdMobile(credential: MyIdCredential) {
