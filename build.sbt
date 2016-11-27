@@ -1,2 +1,3 @@
 name := "myid-mobile"
-scalaVersion := "2.11.8"
+
+//mainClass in (app, run) := Some("info.myidmobile.TutorialApp")
