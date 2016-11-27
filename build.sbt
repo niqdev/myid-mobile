@@ -12,7 +12,6 @@ lazy val V = new {
 
 libraryDependencies ++= Seq(
   "net.ruippeixotog" %% "scala-scraper" % V.scalaScraper,
-  //"org.joda" % "joda-money" % V.jodaMoney,
 
   "ch.qos.logback" % "logback-classic" % V.logback,
   "com.typesafe.scala-logging" %% "scala-logging" % V.scalaLogging,
