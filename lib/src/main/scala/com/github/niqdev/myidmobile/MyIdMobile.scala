@@ -46,26 +46,26 @@ case class MyIdMobile(credential: MyIdCredential) {
       .getOrElse("_idm_selfcare_session", "NO_SESSION")
   }
 
-  private def extractBalance(docGetBalance: Document): PlanInfo = {
-    val expire = docGetBalance >> text(".section-text:first-child > strong")
-    val balance = docGetBalance >> text(".mobile-plan-balance")
+  private def extractBalance(document: Document): PlanInfo = {
+    val expire = document >> text(".section-text:first-child > strong")
+    val balance = document >> text(".mobile-plan-balance")
 
     def parseLeft(text: String): String = text replace(" left", "")
 
     def parseValidUntil(text: String): String = text replace("Valid until: ", "")
 
     val minutes = MobilePlanWidget(
-      total = docGetBalance >> text(".minutes-widget > .widget-header"),
-      used = docGetBalance >> text(".minutes > .widget-compeltion-bar-progress-text"),
-      left = parseLeft(docGetBalance >> text(".minutes-used-section-content > .remaining")),
-      validUntil = parseValidUntil(docGetBalance >> text(".minutes-widget > .widget-subheader"))
+      total = document >> text(".minutes-widget > .widget-header"),
+      used = document >> text(".minutes > .widget-compeltion-bar-progress-text"),
+      left = parseLeft(document >> text(".minutes-used-section-content > .remaining")),
+      validUntil = parseValidUntil(document >> text(".minutes-widget > .widget-subheader"))
     )
 
     val data = MobilePlanWidget(
-      total = docGetBalance >> text(".data-widget > .widget-header"),
-      used = docGetBalance >> text(".data > .widget-compeltion-bar-progress-text"),
-      left = parseLeft(docGetBalance >> text(".data-used-section-content > .remaining")),
-      validUntil = parseValidUntil(docGetBalance >> text(".data-widget > .widget-subheader"))
+      total = document >> text(".data-widget > .widget-header"),
+      used = document >> text(".data > .widget-compeltion-bar-progress-text"),
+      left = parseLeft(document >> text(".data-used-section-content > .remaining")),
+      validUntil = parseValidUntil(document >> text(".data-widget > .widget-subheader"))
     )
 
     PlanInfo(expire, balance, minutes, data)
@@ -76,10 +76,10 @@ case class MyIdMobile(credential: MyIdCredential) {
     sessionId <- getSessionId
     _ <- postLogin(authenticityToken)
     _ <- getRefresh
-    docGetBalance <- getBalance
+    documentBalance <- getBalance
   } yield {
     logger.debug(s"$credential|$sessionId")
-    extractBalance(docGetBalance)
+    extractBalance(documentBalance)
   }
 
 }
