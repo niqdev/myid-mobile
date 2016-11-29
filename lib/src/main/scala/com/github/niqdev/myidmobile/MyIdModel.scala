@@ -14,27 +14,18 @@ object PhonePrefix {
 }
 
 case class MyIdCredential(prefix: Prefix = PhonePrefix.IE, mobileNumber: String, password: String) {
-  override def toString = s"$prefix|$mobileNumber|$password"
+  final def prettyPrint = s"$prefix|$mobileNumber|$password"
 }
 
-trait MobilePlanWidget {
-  def left(text: String): String = text replace(" left", "")
-  def validUntil(text: String): String = text replace("Valid until: ", "")
-}
-
-case class Minutes(total: String, used: String, leftStr: String, validUntilStr: String) extends MobilePlanWidget {
-  override def toString = s"$total|$used|${left(leftStr)}|${validUntil(validUntilStr)}"
-}
-
-case class Data(total: String, used: String, leftStr: String, validUntilStr: String) extends MobilePlanWidget {
-  override def toString = s"$total|$used|${left(leftStr)}|${validUntil(validUntilStr)}"
+case class MobilePlanWidget(total: String, used: String, left: String, validUntil: String) {
+  final def prettyPrint = s"$total|$used|$left|$validUntil"
 }
 
 case class PlanInfo(
     expire: String,
     balance: String,
-    minutes: Minutes,
-    data: Data
+    minutes: MobilePlanWidget,
+    data: MobilePlanWidget
   ) {
   override def toString = s"$expire|$balance|$minutes|$data"
 }

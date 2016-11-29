@@ -55,18 +55,21 @@ case class MyIdMobile(credential: MyIdCredential) {
     val expire = docGetBalance >> text(".section-text:first-child > strong")
     val balance = docGetBalance >> text(".mobile-plan-balance")
 
-    val minutes = Minutes(
-      docGetBalance >> text(".minutes-widget > .widget-header"),
-      docGetBalance >> text(".minutes > .widget-compeltion-bar-progress-text"),
-      docGetBalance >> text(".minutes-used-section-content > .remaining"),
-      docGetBalance >> text(".minutes-widget > .widget-subheader")
+    def left(text: String): String = text replace(" left", "")
+    def validUntil(text: String): String = text replace("Valid until: ", "")
+
+    val minutes = MobilePlanWidget(
+      total = docGetBalance >> text(".minutes-widget > .widget-header"),
+      used = docGetBalance >> text(".minutes > .widget-compeltion-bar-progress-text"),
+      left = left(docGetBalance >> text(".minutes-used-section-content > .remaining")),
+      validUntil = validUntil(docGetBalance >> text(".minutes-widget > .widget-subheader"))
     )
 
-    val data = Data(
-      docGetBalance >> text(".data-widget > .widget-header"),
-      docGetBalance >> text(".data > .widget-compeltion-bar-progress-text"),
-      docGetBalance >> text(".data-used-section-content > .remaining"),
-      docGetBalance >> text(".data-widget > .widget-subheader")
+    val data = MobilePlanWidget(
+      total = docGetBalance >> text(".data-widget > .widget-header"),
+      used = docGetBalance >> text(".data > .widget-compeltion-bar-progress-text"),
+      left = left(docGetBalance >> text(".data-used-section-content > .remaining")),
+      validUntil = validUntil(docGetBalance >> text(".data-widget > .widget-subheader"))
     )
 
     PlanInfo(expire, balance, minutes, data)
