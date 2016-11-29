@@ -5,15 +5,13 @@ import com.typesafe.scalalogging.Logger
 import net.ruippeixotog.scalascraper.browser.JsoupBrowser
 import net.ruippeixotog.scalascraper.dsl.DSL.Extract._
 import net.ruippeixotog.scalascraper.dsl.DSL._
+import net.ruippeixotog.scalascraper.model.Document
 import net.ruippeixotog.scalascraper.scraper.ContentExtractors.attr
 
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent._
+
 /**
-  * POST    https://my.idmobile.ie/login
-  * GET     https://my.idmobile.ie/refresh-user (302)
-  * GET     https://my.idmobile.ie
-  * GET     https://my.idmobile.ie/my-activity
-  * GET     https://my.idmobile.ie/logout (302)
-  *
   * @author niqdev
   */
 case class MyIdMobile(credential: MyIdCredential) {
@@ -22,62 +20,66 @@ case class MyIdMobile(credential: MyIdCredential) {
   private val config = ConfigFactory.load()
   private val browser = JsoupBrowser()
 
-  private def login(): Unit = {
+  private def getLogin: Future[Document] = Future {
+    browser.get(config.getString("url.login"))
+  }
 
-    def docGetLogin = browser.get(config.getString("url.login"))
-
-    def docPostLogin(authenticityToken: String) = browser.post(config.getString("url.login"), Map(
+  private def postLogin(authenticityToken: String): Future[Document] = Future {
+    browser.post(config.getString("url.login"), Map(
       "authenticity_token" -> authenticityToken,
       "login[mobile_number]" -> credential.mobileNumber,
       "login[password]" -> credential.password,
       "utf8" -> "&#x2713;"
     ))
-
-    def docRefresh = browser.get(config.getString("url.refresh"))
-
-    val authenticityToken = docGetLogin >> attr("content")("meta[name=csrf-token]")
-    sleep
-    docPostLogin(authenticityToken)
-    sleep
-    docRefresh
-
-    val sessionId = browser.cookies(config.getString("url.login"))
-      .getOrElse("_idm_selfcare_session", "NO_SESSION")
-    logger.debug(s"$credential|$sessionId")
   }
 
-  def balance(): PlanInfo = {
-    login()
-    sleep
+  private def getRefresh: Future[Document] = Future {
+    browser.get(config.getString("url.refresh"))
+  }
 
-    val docGetBalance = browser.get(config.getString("url.balance"))
+  private def getBalance: Future[Document] = Future {
+    browser.get(config.getString("url.balance"))
+  }
 
+  private def getSessionId: Future[String] = Future.successful {
+    browser.cookies(config.getString("url.login"))
+      .getOrElse("_idm_selfcare_session", "NO_SESSION")
+  }
+
+  private def extractBalance(docGetBalance: Document): PlanInfo = {
     val expire = docGetBalance >> text(".section-text:first-child > strong")
     val balance = docGetBalance >> text(".mobile-plan-balance")
 
-    def left(text: String): String = text replace(" left", "")
-    def validUntil(text: String): String = text replace("Valid until: ", "")
+    def parseLeft(text: String): String = text replace(" left", "")
+
+    def parseValidUntil(text: String): String = text replace("Valid until: ", "")
 
     val minutes = MobilePlanWidget(
       total = docGetBalance >> text(".minutes-widget > .widget-header"),
       used = docGetBalance >> text(".minutes > .widget-compeltion-bar-progress-text"),
-      left = left(docGetBalance >> text(".minutes-used-section-content > .remaining")),
-      validUntil = validUntil(docGetBalance >> text(".minutes-widget > .widget-subheader"))
+      left = parseLeft(docGetBalance >> text(".minutes-used-section-content > .remaining")),
+      validUntil = parseValidUntil(docGetBalance >> text(".minutes-widget > .widget-subheader"))
     )
 
     val data = MobilePlanWidget(
       total = docGetBalance >> text(".data-widget > .widget-header"),
       used = docGetBalance >> text(".data > .widget-compeltion-bar-progress-text"),
-      left = left(docGetBalance >> text(".data-used-section-content > .remaining")),
-      validUntil = validUntil(docGetBalance >> text(".data-widget > .widget-subheader"))
+      left = parseLeft(docGetBalance >> text(".data-used-section-content > .remaining")),
+      validUntil = parseValidUntil(docGetBalance >> text(".data-widget > .widget-subheader"))
     )
 
     PlanInfo(expire, balance, minutes, data)
   }
 
-  def sleep = {
-    Thread.sleep(1000)
-    logger.debug("sleep 1 second")
+  def balance: Future[PlanInfo] = for {
+    authenticityToken <- getLogin map (_ >> attr("content")("meta[name=csrf-token]"))
+    sessionId <- getSessionId
+    _ <- postLogin(authenticityToken)
+    _ <- getRefresh
+    docGetBalance <- getBalance
+  } yield {
+    logger.debug(s"$credential|$sessionId")
+    extractBalance(docGetBalance)
   }
 
 }

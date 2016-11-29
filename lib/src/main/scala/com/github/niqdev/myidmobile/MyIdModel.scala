@@ -3,14 +3,11 @@ package com.github.niqdev.myidmobile
 import com.github.niqdev.myidmobile.PhonePrefix.Prefix
 
 object PhonePrefix {
-
   sealed abstract class Prefix(value: String) {
     override def toString = s"$value"
   }
-
   case object IE extends Prefix("+353")
   case object UK extends Prefix("+44")
-
 }
 
 case class MyIdCredential(prefix: Prefix = PhonePrefix.IE, mobileNumber: String, password: String) {
@@ -27,5 +24,5 @@ case class PlanInfo(
     minutes: MobilePlanWidget,
     data: MobilePlanWidget
   ) {
-  override def toString = s"$expire|$balance|$minutes|$data"
+  final def prettyPrint = s"$expire|$balance|$minutes|$data"
 }
