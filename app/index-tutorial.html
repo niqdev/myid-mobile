@@ -5,11 +5,13 @@
     <title>The Scala.js Tutorial</title>
 </head>
 <body>
-<!-- Include Scala.js compiled code -->
-<script type="text/javascript" src="./target/scala-2.11/myid-mobile-app-fastopt.js"></script>
-<!-- Run tutorial.webapp.TutorialApp -->
-<script type="text/javascript">
-    info.myidmobile.TutorialApp().main();
-</script>
+    <!-- Include Scala.js compiled code -->
+    <script type="text/javascript" src="./target/scala-2.11/myid-mobile-app-fastopt.js"></script>
+    <!-- Run tutorial.webapp.TutorialApp -->
+    <script type="text/javascript">
+        info.myidmobile.TutorialApp().main()
+    </script>
+    <button id="click-me-button" type="button"
+        onclick="info.myidmobile.TutorialApp().addClickedMessage()">Click me!</button>
 </body>
 </html>

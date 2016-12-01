@@ -6,4 +6,6 @@ scalaVersion := "2.11.8"
 
 lazy val V = new {}
 
-libraryDependencies ++= Seq()
+libraryDependencies ++= Seq(
+  "org.scala-js" %%% "scalajs-dom" % "0.9.1"
+)
