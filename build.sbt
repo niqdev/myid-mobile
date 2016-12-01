@@ -1,3 +1,3 @@
 name := "myid-mobile"
 
-//mainClass in (app, run) := Some("info.myidmobile.TutorialApp")
+//mainClass in (Compile, run) := Some("info.myidmobile.TutorialApp")
