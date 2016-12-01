@@ -18,7 +18,7 @@ object MyIdApp extends App {
   val myIdMobile = MyIdMobile(myIdCredential)
 
   val balance = myIdMobile.balance andThen  {
-    case Success(planInfo) => logger.debug(s"$planInfo")
+    case Success(planInfo) => logger.debug(s"${planInfo.toPrettyJson}")
     case Failure(throwable) => logger.error(s"$throwable")
   }
 

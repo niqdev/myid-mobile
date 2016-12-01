@@ -1,6 +1,7 @@
 package com.github.niqdev.myidmobile
 
 import com.github.niqdev.myidmobile.PhonePrefix.Prefix
+import com.google.gson.{Gson, GsonBuilder}
 
 object PhonePrefix {
   sealed abstract class Prefix(value: String) {
@@ -10,19 +11,19 @@ object PhonePrefix {
   case object UK extends Prefix("+44")
 }
 
-case class MyIdCredential(prefix: Prefix = PhonePrefix.IE, mobileNumber: String, password: String) {
-  final def prettyPrint = s"$prefix|$mobileNumber|$password"
+abstract class JsonConverter {
+  final def toJson = new Gson().toJson(this)
+  final def toPrettyJson = new GsonBuilder().setPrettyPrinting().create().toJson(this)
 }
 
-case class MobilePlanWidget(total: String, used: String, left: String, validUntil: String) {
-  final def prettyPrint = s"$total|$used|$left|$validUntil"
-}
+case class MyIdCredential(prefix: Prefix = PhonePrefix.IE, mobileNumber: String, password: String) extends JsonConverter
+
+case class MobilePlanWidget(total: String, used: String, left: String, validUntil: String) extends JsonConverter
 
 case class PlanInfo(
     expire: String,
     balance: String,
     minutes: MobilePlanWidget,
     data: MobilePlanWidget
-  ) {
-  final def prettyPrint = s"$expire|$balance|$minutes|$data"
-}
+  )
+  extends JsonConverter

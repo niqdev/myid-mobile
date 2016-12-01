@@ -78,7 +78,7 @@ case class MyIdMobile(credential: MyIdCredential) {
     _ <- getRefresh
     documentBalance <- getBalance
   } yield {
-    logger.debug(s"$credential|$sessionId")
+    logger.debug(s"$sessionId - ${credential.toJson}")
     extractBalance(documentBalance)
   }
 
