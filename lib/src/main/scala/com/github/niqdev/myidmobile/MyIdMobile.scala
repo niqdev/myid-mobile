@@ -11,7 +11,7 @@ import net.ruippeixotog.scalascraper.scraper.ContentExtractors.attr
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._
-import scala.util.control.NonFatal
+import scala.concurrent.duration._
 
 /**
   * @author niqdev
@@ -38,11 +38,15 @@ class MyIdMobile(credential: MyIdCredential, config: Config) {
   private val browser = JsoupBrowser()
 
   private def getLogin: Future[Document] = Future {
-    // ok logger
+    logger.debug("GET login")
+
     browser.get(config.getString("url.login"))
   }
 
   private def postLogin(authenticityToken: String): Future[Document] = Future {
+    logger.debug("POST login")
+    sleep for_ 2.second
+
     browser.post(config.getString("url.login"), Map(
       "authenticity_token" -> authenticityToken,
       "login[mobile_number]" -> credential.mobileNumber.get,
@@ -52,10 +56,14 @@ class MyIdMobile(credential: MyIdCredential, config: Config) {
   }
 
   private def getRefresh: Future[Document] = Future {
+    logger.debug("GET refresh")
+
     browser.get(config.getString("url.refresh"))
   }
 
   private def getBalance: Future[Document] = Future {
+    logger.debug("GET balance")
+
     browser.get(config.getString("url.balance"))
   }
 
@@ -89,20 +97,15 @@ class MyIdMobile(credential: MyIdCredential, config: Config) {
     PlanInfo(expire, balance, minutes, data)
   }
 
-  def balance: Future[PlanInfo] = {
-    val f = for {
-      authenticityToken <- getLogin map (_ >> attr("content")("meta[name=csrf-token]"))
-      sessionId <- getSessionId
-      _ <- postLogin(authenticityToken)
-      _ <- getRefresh
-      planInfo <- getBalance.map(extractBalance)
-    } yield {
-      logger.debug(s"$sessionId - ${credential.toJson}")
-      planInfo
-    }
-    f.recover {
-      case NonFatal(e) => PlanInfo("", "", MobilePlanWidget("", "", "", ""), MobilePlanWidget("", "", "", ""))
-    }
+  def balance: Future[PlanInfo] = for {
+    authenticityToken <- getLogin map (_ >> attr("content")("meta[name=csrf-token]"))
+    sessionId <- getSessionId
+    _ <- postLogin(authenticityToken)
+    _ <- getRefresh
+    documentBalance <- getBalance
+  } yield {
+    logger.debug(s"$sessionId - ${credential.toJson}")
+    extractBalance(documentBalance)
   }
 
 }

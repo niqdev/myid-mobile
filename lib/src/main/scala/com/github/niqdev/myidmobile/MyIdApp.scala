@@ -8,6 +8,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
 import scala.util.{Failure, Success}
 
+// TODO toJson and toPrettyJson don't work
 object MyIdApp extends App {
 
   val logger = Logger("MyIdApp")
