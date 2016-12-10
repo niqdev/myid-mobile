@@ -13,14 +13,9 @@ object JsonConverter {
     override def toJson(t: AnyRef): String = new Gson().toJson(t)
     override def toPrettyJson(t: AnyRef): String = new GsonBuilder().setPrettyPrinting().create().toJson(t)
   }
-  implicit val intJsonConverter = new JsonConverter[Int] {
-    override def toJson(t: Int) = s"$t"
-    override def toPrettyJson(t: Int) = s"$t"
-  }
 
   implicit class AnyRefOps[T](val t: T) extends AnyVal {
     def toJson(implicit c: JsonConverter[T]): String = c.toJson(t)
     def toPrettyJson(implicit c: JsonConverter[T]): String = c.toPrettyJson(t)
   }
-
 }
