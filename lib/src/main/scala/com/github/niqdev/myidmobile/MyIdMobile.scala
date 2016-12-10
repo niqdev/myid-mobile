@@ -18,6 +18,11 @@ import scala.concurrent.duration._
   */
 object MyIdMobile {
 
+  def apply(mobileNumber: String, password: String): MyIdMobile =
+    apply(MyIdCredential(
+      mobileNumber = Some(mobileNumber),
+      password = Some(password)))
+
   def apply(credential: MyIdCredential): MyIdMobile = {
     assert(isNotBlank(credential.mobileNumber), "missing mobileNumber")
     assert(isNotBlank(credential.password), "missing password")
@@ -31,8 +36,7 @@ object MyIdMobile {
   }
 }
 
-// spec2 ++scalaTest scalaCheck
-class MyIdMobile(credential: MyIdCredential, config: Config) {
+class MyIdMobile(credential: MyIdCredential, config: => Config) {
 
   private val logger = Logger("MyIdMobile")
   private val browser = JsoupBrowser()

@@ -13,11 +13,7 @@ object MyIdApp extends App {
 
   val logger = Logger("MyIdApp")
 
-  val myIdCredential = MyIdCredential(
-    mobileNumber = Some(System.getenv("mobileNumber")),
-    password = Some(System.getenv("password")))
-
-  val myIdMobile = MyIdMobile(myIdCredential)
+  val myIdMobile = MyIdMobile(System.getenv("mobileNumber"), System.getenv("password"))
 
   val balance = myIdMobile.balance
   balance onComplete {
