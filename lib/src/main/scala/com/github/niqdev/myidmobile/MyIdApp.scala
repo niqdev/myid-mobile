@@ -13,8 +13,8 @@ object MyIdApp extends App {
   val logger = Logger("MyIdApp")
 
   val myIdCredential = MyIdCredential(
-    mobileNumber = System.getenv("mobileNumber"),
-    password = System.getenv("password"))
+    mobileNumber = Some(System.getenv("mobileNumber")),
+    password = Some(System.getenv("password")))
 
   val myIdMobile = MyIdMobile(myIdCredential)
 

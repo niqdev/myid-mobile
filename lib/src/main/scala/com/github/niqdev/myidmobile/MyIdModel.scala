@@ -10,7 +10,7 @@ object PhonePrefix {
   case object UK extends Prefix("+44")
 }
 
-case class MyIdCredential(prefix: Prefix = PhonePrefix.IE, mobileNumber: String, password: String)
+case class MyIdCredential(prefix: Prefix = PhonePrefix.IE, mobileNumber: Option[String], password: Option[String])
 
 case class MobilePlanWidget(total: String, used: String, left: String, validUntil: String)
 

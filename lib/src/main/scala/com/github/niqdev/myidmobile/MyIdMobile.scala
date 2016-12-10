@@ -1,6 +1,7 @@
 package com.github.niqdev.myidmobile
 
-import com.typesafe.config.ConfigFactory
+import com.github.niqdev.myidmobile.JsonConverter._
+import com.typesafe.config.{Config, ConfigFactory}
 import com.typesafe.scalalogging.Logger
 import net.ruippeixotog.scalascraper.browser.JsoupBrowser
 import net.ruippeixotog.scalascraper.dsl.DSL.Extract._
@@ -10,25 +11,42 @@ import net.ruippeixotog.scalascraper.scraper.ContentExtractors.attr
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._
+import scala.util.control.NonFatal
 
 /**
   * @author niqdev
   */
-case class MyIdMobile(credential: MyIdCredential) {
+object MyIdMobile {
+
+  def apply(credential: MyIdCredential): MyIdMobile = {
+    assert(isNotBlank(credential.mobileNumber), "missing mobileNumber")
+    assert(isNotBlank(credential.password), "missing password")
+
+    new MyIdMobile(credential, ConfigFactory.load())
+  }
+
+  private[this] def isNotBlank(o: Option[String]): Boolean = o match {
+    case Some(s) => s.trim.nonEmpty
+    case None => false
+  }
+}
+
+// spec2 ++scalaTest scalaCheck
+class MyIdMobile(credential: MyIdCredential, config: Config) {
 
   private val logger = Logger("MyIdMobile")
-  private val config = ConfigFactory.load()
   private val browser = JsoupBrowser()
 
   private def getLogin: Future[Document] = Future {
+    // ok logger
     browser.get(config.getString("url.login"))
   }
 
   private def postLogin(authenticityToken: String): Future[Document] = Future {
     browser.post(config.getString("url.login"), Map(
       "authenticity_token" -> authenticityToken,
-      "login[mobile_number]" -> credential.mobileNumber,
-      "login[password]" -> credential.password,
+      "login[mobile_number]" -> credential.mobileNumber.get,
+      "login[password]" -> credential.password.get,
       "utf8" -> "&#x2713;"
     ))
   }
@@ -71,15 +89,20 @@ case class MyIdMobile(credential: MyIdCredential) {
     PlanInfo(expire, balance, minutes, data)
   }
 
-  def balance: Future[PlanInfo] = for {
-    authenticityToken <- getLogin map (_ >> attr("content")("meta[name=csrf-token]"))
-    sessionId <- getSessionId
-    _ <- postLogin(authenticityToken)
-    _ <- getRefresh
-    documentBalance <- getBalance
-  } yield {
-    logger.debug(s"$sessionId - ${credential.toJson}")
-    extractBalance(documentBalance)
+  def balance: Future[PlanInfo] = {
+    val f = for {
+      authenticityToken <- getLogin map (_ >> attr("content")("meta[name=csrf-token]"))
+      sessionId <- getSessionId
+      _ <- postLogin(authenticityToken)
+      _ <- getRefresh
+      planInfo <- getBalance.map(extractBalance)
+    } yield {
+      logger.debug(s"$sessionId - ${credential.toJson}")
+      planInfo
+    }
+    f.recover {
+      case NonFatal(e) => PlanInfo("", "", MobilePlanWidget("", "", "", ""), MobilePlanWidget("", "", "", ""))
+    }
   }
 
 }
