@@ -1,6 +1,7 @@
 package com.github.niqdev.myidmobile
 
 import com.github.niqdev.myidmobile.JsonConverter._
+import com.github.niqdev.myidmobile.PhonePrefix.Prefix
 import com.typesafe.config.{Config, ConfigFactory}
 import com.typesafe.scalalogging.Logger
 import net.ruippeixotog.scalascraper.browser.JsoupBrowser
@@ -18,10 +19,8 @@ import scala.concurrent.duration._
   */
 object MyIdMobile {
 
-  def apply(mobileNumber: String, password: String): MyIdMobile =
-    apply(MyIdCredential(
-      mobileNumber = Some(mobileNumber),
-      password = Some(password)))
+  def apply(prefix: Prefix, mobileNumber: String, password: String): MyIdMobile =
+    apply(MyIdCredential(prefix, Some(mobileNumber), Some(password)))
 
   def apply(credential: MyIdCredential): MyIdMobile = {
     assert(isNotBlank(credential.mobileNumber), "missing mobileNumber")
