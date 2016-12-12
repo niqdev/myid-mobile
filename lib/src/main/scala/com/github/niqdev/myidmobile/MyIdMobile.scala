@@ -1,5 +1,8 @@
 package com.github.niqdev.myidmobile
 
+import cats.Apply
+import cats.data.ValidatedNel
+import cats.implicits._
 import com.github.niqdev.myidmobile.JsonConverter._
 import com.github.niqdev.myidmobile.PhonePrefix.Prefix
 import com.typesafe.config.{Config, ConfigFactory}
@@ -19,20 +22,18 @@ import scala.concurrent.duration._
   */
 object MyIdMobile {
 
-  def apply(prefix: Prefix, mobileNumber: String, password: String): MyIdMobile =
-    apply(MyIdCredential(prefix, Some(mobileNumber), Some(password)))
+  type Result[A] = ValidatedNel[String, A]
 
-  def apply(credential: MyIdCredential): MyIdMobile = {
-    assert(isNotBlank(credential.mobileNumber), "missing mobileNumber")
-    assert(isNotBlank(credential.password), "missing password")
+  def apply(prefix: Prefix = PhonePrefix.IE, mobileNumber: Option[String], password: Option[String]): Result[MyIdMobile] = {
+    val pwd = password.flatMap(nonBlank).toValidNel("missing password")
+    val mbn = mobileNumber.flatMap(nonBlank).toValidNel("missing mobile number")
 
-    new MyIdMobile(credential, ConfigFactory.load())
+    Apply[Result].map2(mbn, pwd) {
+      case (mobile, pass) => new MyIdMobile(MyIdCredential(prefix, mobile, pass), ConfigFactory.load())
+    }
   }
 
-  private[this] def isNotBlank(o: Option[String]): Boolean = o match {
-    case Some(s) => s.trim.nonEmpty
-    case None => false
-  }
+  private[this] def nonBlank(s: String): Option[String] = if (s.trim.isEmpty) None else Some(s)
 }
 
 class MyIdMobile(credential: MyIdCredential, config: => Config) {
@@ -52,8 +53,8 @@ class MyIdMobile(credential: MyIdCredential, config: => Config) {
 
     browser.post(config.getString("url.login"), Map(
       "authenticity_token" -> authenticityToken,
-      "login[mobile_number]" -> credential.mobileNumber.get,
-      "login[password]" -> credential.password.get,
+      "login[mobile_number]" -> credential.mobileNumber,
+      "login[password]" -> credential.password,
       "utf8" -> "&#x2713;"
     ))
   }

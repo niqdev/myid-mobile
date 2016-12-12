@@ -5,6 +5,7 @@ scalaVersion := "2.11.8"
 lazy val V = new {
   val scalaScraper = "1.1.0"
   val gson = "2.8.0"
+  val cats = "0.8.1"
 
   val logback = "1.1.7"
   val scalaLogging = "3.5.0"
@@ -14,6 +15,7 @@ lazy val V = new {
 libraryDependencies ++= Seq(
   "net.ruippeixotog" %% "scala-scraper" % V.scalaScraper,
   "com.google.code.gson" % "gson" % V.gson,
+  "org.typelevel" %% "cats-core" % V.cats,
 
   "ch.qos.logback" % "logback-classic" % V.logback,
   "com.typesafe.scala-logging" %% "scala-logging" % V.scalaLogging,

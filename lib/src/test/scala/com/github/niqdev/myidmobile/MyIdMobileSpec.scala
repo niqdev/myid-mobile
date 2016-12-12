@@ -18,10 +18,10 @@ class MyIdMobileSpec extends UnitSpec {
     config.getString("url.history") should be ("https://my.idmobile.ie/my-activity")
   }
 
-  "MyIdCredential" should "have default prefix" in {
-    val credential = MyIdCredential(mobileNumber = Some(""), password = Some(""))
-    credential.prefix should be (PhonePrefix.IE)
-  }
+//  "MyIdCredential" should "have default prefix" in {
+//    val credential = MyIdCredential(mobileNumber = Some(""), password = Some(""))
+//    credential.prefix should be (PhonePrefix.IE)
+//  }
 
   it should "throw AssertionError if credentials are missing" in {
 //    an [IllegalArgumentException] should be thrownBy {
