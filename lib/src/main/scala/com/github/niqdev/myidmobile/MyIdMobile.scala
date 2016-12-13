@@ -17,19 +17,16 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._
 import scala.concurrent.duration._
 
-/**
-  * @author niqdev
-  */
 object MyIdMobile {
 
   type Result[A] = ValidatedNel[String, A]
 
   def apply(prefix: Prefix = PhonePrefix.IE, mobileNumber: Option[String], password: Option[String]): Result[MyIdMobile] = {
-    val pwd = password.flatMap(nonBlank).toValidNel("missing password")
-    val mbn = mobileNumber.flatMap(nonBlank).toValidNel("missing mobile number")
+    val _mobileNumber = mobileNumber.flatMap(nonBlank).toValidNel("missing mobile number")
+    val _password = password.flatMap(nonBlank).toValidNel("missing password")
 
-    Apply[Result].map2(mbn, pwd) {
-      case (mobile, pass) => new MyIdMobile(MyIdCredential(prefix, mobile, pass), ConfigFactory.load())
+    Apply[Result].map2(_mobileNumber, _password) {
+      case (mbn, pwd) => new MyIdMobile(MyIdCredential(prefix, mbn, pwd), ConfigFactory.load())
     }
   }
 
