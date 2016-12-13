@@ -8,5 +8,6 @@ MyiD Mobile [IE](http://www.idmobile.ie) and [UK](https://www.idmobile.co.uk)
 > Work in progress
 
 ```
+sbt lib/run
 sbt fastOptJS
 ```
