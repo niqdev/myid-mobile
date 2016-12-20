@@ -24,9 +24,10 @@ class MyIdMobileSpec extends UnitSpec {
       case Valid(_) => fail()
       case Invalid(errors) => {
         val errorList = errors.toList
-        assert(errorList.length === 2)
-        assert(errorList.head === "missing mobile number")
-        assert(errorList(1) === "missing password")
+
+        errorList.length shouldBe 2
+        errorList.head shouldBe "missing mobile number"
+        errorList(1) shouldBe "missing password"
       }
     }
   }
@@ -36,8 +37,9 @@ class MyIdMobileSpec extends UnitSpec {
       case Valid(_) => fail()
       case Invalid(errors) => {
         val errorList = errors.toList
-        assert(errorList.length === 1)
-        assert(errorList.head === "missing mobile number")
+
+        errorList.length shouldBe 1
+        errorList.head shouldBe "missing mobile number"
       }
     }
   }
@@ -47,20 +49,22 @@ class MyIdMobileSpec extends UnitSpec {
       case Valid(_) => fail()
       case Invalid(errors) => {
         val errorList = errors.toList
-        assert(errorList.length === 1)
-        assert(errorList.head === "missing password")
+
+        errorList.length shouldBe 1
+        errorList.head shouldBe "missing password"
       }
     }
   }
 
   it should "succeed validating all fields" in {
     MyIdMobile(mobileNumber = Some("MyMobileNumber"), password = Some("MyPassword")) match {
-      case Valid(myIdMobile) => {
-        assert(myIdMobile.credential.prefix === PhonePrefix.IE)
-        assert(myIdMobile.credential.mobileNumber === "MyMobileNumber")
-        assert(myIdMobile.credential.password === "MyPassword")
-      }
       case Invalid(_) => fail()
+      case Valid(myIdMobile) => {
+
+        myIdMobile.credential.prefix shouldBe PhonePrefix.IE
+        myIdMobile.credential.mobileNumber shouldBe "MyMobileNumber"
+        myIdMobile.credential.password shouldBe "MyPassword"
+      }
     }
   }
 
