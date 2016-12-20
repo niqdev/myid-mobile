@@ -10,6 +10,7 @@ lazy val V = new {
   val logback = "1.1.7"
   val scalaLogging = "3.5.0"
   val scalatest = "3.0.1"
+  val scalamock = "3.4.2"
 }
 
 lazy val commonSettings = Seq(
@@ -17,7 +18,8 @@ lazy val commonSettings = Seq(
     "ch.qos.logback" % "logback-classic" % V.logback,
     "com.typesafe.scala-logging" %% "scala-logging" % V.scalaLogging,
 
-    "org.scalatest" %% "scalatest" % V.scalatest % Test
+    "org.scalatest" %% "scalatest" % V.scalatest % Test,
+    "org.scalamock" %% "scalamock-scalatest-support" % V.scalamock % Test
   )
 )
 

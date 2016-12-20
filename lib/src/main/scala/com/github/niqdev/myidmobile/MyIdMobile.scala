@@ -26,19 +26,21 @@ object MyIdMobile {
     val _password = password.flatMap(nonBlank).toValidNel("missing password")
 
     Apply[Result].map2(_mobileNumber, _password) {
-      case (mbn, pwd) => new MyIdMobile(MyIdCredential(prefix, mbn, pwd), ConfigFactory.load())
+      case (mbn, pwd) => new MyIdMobile(
+        MyIdCredential(prefix, mbn, pwd),
+        ConfigFactory.load(),
+        JsoupBrowser())
     }
   }
 
   private[this] def nonBlank(s: String): Option[String] = if (s.trim.isEmpty) None else Some(s)
 }
 
-class MyIdMobile(credential: MyIdCredential, config: => Config) {
+class MyIdMobile(val credential: MyIdCredential, config: => Config, browser: => JsoupBrowser) {
 
   private val logger = Logger("MyIdMobile")
-  private val browser = JsoupBrowser()
 
-  private def getLogin: Future[Document] = Future {
+  private[myidmobile] def getLogin: Future[Document] = Future {
     logger.debug("GET login")
 
     browser.get(config.getString("url.login"))
