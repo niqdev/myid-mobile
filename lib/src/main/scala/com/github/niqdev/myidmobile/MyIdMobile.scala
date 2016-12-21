@@ -58,13 +58,13 @@ class MyIdMobile(val credential: MyIdCredential, config: => Config, browser: => 
     ))
   }
 
-  private def getRefresh: Future[Document] = Future {
+  private[myidmobile] def getRefresh: Future[Document] = Future {
     logger.debug("GET refresh")
 
     browser.get(config.getString("url.refresh"))
   }
 
-  private def getBalance: Future[Document] = Future {
+  private[myidmobile] def getBalance: Future[Document] = Future {
     logger.debug("GET balance")
 
     browser.get(config.getString("url.balance"))
