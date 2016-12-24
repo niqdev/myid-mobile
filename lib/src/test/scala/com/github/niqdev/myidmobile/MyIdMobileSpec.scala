@@ -2,11 +2,12 @@ package com.github.niqdev.myidmobile
 
 import cats.data.Validated.{Invalid, Valid}
 import com.typesafe.config.ConfigFactory
+import org.scalatest.{FlatSpec, Matchers}
 
 /**
   * @author niqdev
   */
-class MyIdMobileSpec extends UnitSpec {
+class MyIdMobileSpec extends FlatSpec with Matchers {
 
   "config" should "contains urls" in {
     val config = ConfigFactory.load()
