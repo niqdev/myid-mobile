@@ -70,7 +70,7 @@ class MyIdMobile(val credential: MyIdCredential, config: => Config, browser: => 
     browser.get(config.getString("url.balance"))
   }
 
-  private def getSessionId: Future[String] = Future.successful {
+  private[myidmobile] def getSessionId: Future[String] = Future.successful {
     browser.cookies(config.getString("url.login"))
       .getOrElse("_idm_selfcare_session", "NO_SESSION")
   }

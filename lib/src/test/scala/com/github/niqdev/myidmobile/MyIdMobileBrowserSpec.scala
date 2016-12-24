@@ -8,6 +8,7 @@ import org.scalatest.{FlatSpec, Matchers}
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
+import scala.util.Success
 
 class MyIdMobileBrowserSpec extends FlatSpec with Matchers with MockFactory {
 
@@ -15,9 +16,10 @@ class MyIdMobileBrowserSpec extends FlatSpec with Matchers with MockFactory {
     val UrlLogin = "urlLogin"
     val UrlRefresh = "urlRefresh"
     val UrlBalance = "urlBalance"
-    val AuthenticityToken = "myAuthenticityToken"
     val MobileNumber = "MyMobileNumber"
     val Password = "MyPassword"
+    val AuthenticityToken = "myAuthenticityToken"
+    val SessionId = "mySessionId"
 
     val browser = JsoupBrowser()
     val LoginGetDocument = browser.parseResource("/html/myid-mobile-ie-login-get.html")
@@ -40,7 +42,7 @@ class MyIdMobileBrowserSpec extends FlatSpec with Matchers with MockFactory {
     )) returns LoginPostDocument
     jsoupBrowserStub.get _ when UrlRefresh returns RefreshDocument
     jsoupBrowserStub.get _ when UrlBalance returns BalanceDocument
-
+    jsoupBrowserStub.cookies _ when UrlLogin returns Map("_idm_selfcare_session" -> SessionId)
 
     val myIdCredential = MyIdCredential(PhonePrefix.IE, MobileNumber, Password)
     val myIdMobile = new MyIdMobile(myIdCredential, configStub, jsoupBrowserStub)
@@ -68,6 +70,33 @@ class MyIdMobileBrowserSpec extends FlatSpec with Matchers with MockFactory {
     Await.ready(myIdMobile.getBalance andThen {
       case document => document.get.toHtml shouldBe BalanceDocument.toHtml
     }, 1.second)
+  }
+
+  it should "verify getSessionId" in new Test {
+    Await.ready(myIdMobile.getSessionId andThen {
+      case sessionId => sessionId.get shouldBe SessionId
+    }, 1.second)
+  }
+
+  it should "verify balance" in new Test {
+    Await.ready(myIdMobile.balance andThen {
+      case Success(planInfo) => {
+        planInfo.expire shouldBe "30th November"
+        planInfo.balance shouldBe "€9.93"
+
+        val minutes = planInfo.minutes
+        minutes.total shouldBe "300 Minutes"
+        minutes.used shouldBe "0 Minutes"
+        minutes.left shouldBe "300 Minutes"
+        minutes.validUntil shouldBe "01/02/2016"
+
+        val data = planInfo.data
+        data.total shouldBe "30GB"
+        data.used shouldBe "123 MB"
+        data.left shouldBe "12.34 GB"
+        data.validUntil shouldBe "01/02/2016"
+      }
+    }, 3.seconds)
   }
 
 }
