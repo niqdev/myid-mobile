@@ -10,7 +10,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 import scala.util.Success
 
-class MyIdMobileBrowserSpec extends FlatSpec with Matchers with MockFactory {
+class MyIdMobileScraperSpec extends FlatSpec with Matchers with MockFactory {
 
   trait Test {
     val UrlLogin = "urlLogin"
