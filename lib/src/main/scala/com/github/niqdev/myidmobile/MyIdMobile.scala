@@ -46,7 +46,7 @@ class MyIdMobile(val credential: MyIdCredential, config: => Config, browser: => 
     browser.get(config.getString("url.login"))
   }
 
-  private def postLogin(authenticityToken: String): Future[Document] = Future {
+  private[myidmobile] def postLogin(authenticityToken: String): Future[Document] = Future {
     logger.debug("POST login")
     sleep for_ 2.second
 
