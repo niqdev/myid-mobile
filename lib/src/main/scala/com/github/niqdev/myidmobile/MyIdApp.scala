@@ -12,7 +12,7 @@ import scala.util.{Failure, Success}
 object MyIdApp extends App {
 
   private val logger = Logger("MyIdApp")
-  private val env = sys.env
+  private val env = sys.props
 
   private def balance(myIdMobile: MyIdMobile) = myIdMobile.balance andThen {
     case Success(planInfo) => logger.debug(s"${planInfo.toPrettyJson}")
