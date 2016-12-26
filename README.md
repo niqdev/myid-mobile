@@ -9,9 +9,12 @@ MyiD Mobile [IE](http://www.idmobile.ie) and [UK](https://www.idmobile.co.uk)
 
 > Work in progress
 
+Retrieve latest balance from command line
 ```
-# retrieve balance from command line
 sbt -DmobileNumber=XXX -Dpassword=XXX lib/run
+```
 
+TODO
+```
 sbt fastOptJS
 ```
