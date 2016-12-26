@@ -82,7 +82,7 @@ class MyIdMobileScraperSpec extends FlatSpec with Matchers with MockFactory {
     Await.ready(myIdMobile.balance andThen {
       case Success(planInfo) => {
         planInfo.expire shouldBe "30th November"
-        planInfo.balance shouldBe "€9.93"
+        planInfo.balance shouldBe "€12.12"
 
         val minutes = planInfo.minutes
         minutes.total shouldBe "300 Minutes"
