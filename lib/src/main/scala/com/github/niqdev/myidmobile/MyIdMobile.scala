@@ -36,7 +36,7 @@ object MyIdMobile {
   private[this] def nonBlank(s: String): Option[String] = if (s.trim.isEmpty) None else Some(s)
 }
 
-class MyIdMobile(val credential: MyIdCredential, config: => Config, browser: => JsoupBrowser) {
+class MyIdMobile(val credential: MyIdCredential, config: => Config, browser: JsoupBrowser) {
 
   private val logger = Logger("MyIdMobile")
 
