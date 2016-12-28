@@ -44,6 +44,7 @@ lazy val lib = project.in(file("lib"))
 lazy val app = project.in(file("app"))
   .settings(appSettings)
   .enablePlugins(ScalaJSPlugin)
+  .enablePlugins(WorkbenchPlugin)
   .dependsOn(lib)
 
 lazy val root = project.in(file("."))

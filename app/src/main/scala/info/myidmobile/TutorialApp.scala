@@ -14,7 +14,7 @@ object TutorialApp {
   @JSExport
   def main(): Unit = {
     dom.console.log("test")
-    appendPar(document.body, "Hello World")
+    appendPar(document.body, "Hello World Workbench")
   }
 
   def appendPar(targetNode: dom.Node, text: String): Unit = {

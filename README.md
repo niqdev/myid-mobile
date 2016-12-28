@@ -14,7 +14,7 @@ Retrieve latest balance from command line
 sbt -DmobileNumber=XXX -Dpassword=XXX lib/run
 ```
 
-TODO
+Open the url `http://localhost:12345/app/target/scala-2.11/classes/index-tutorial.html`
 ```
 sbt ~fastOptJS
 ```
