@@ -16,5 +16,5 @@ sbt -DmobileNumber=XXX -Dpassword=XXX lib/run
 
 TODO
 ```
-sbt fastOptJS
+sbt ~fastOptJS
 ```

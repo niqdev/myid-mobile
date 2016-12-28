@@ -3,18 +3,17 @@ package info.myidmobile
 import org.scalajs.dom
 import org.scalajs.dom.document
 
-import scala.concurrent.Future
-import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
-import scala.scalajs.js.JSApp
 import scala.scalajs.js.annotation.JSExport
 
 /**
   * @author niqdev
   */
-object TutorialApp extends JSApp {
+@JSExport
+object TutorialApp {
 
-  @scala.scalajs.js.annotation.JSExport
-  override def main(): Unit = {
+  @JSExport
+  def main(): Unit = {
+    dom.console.log("test")
     appendPar(document.body, "Hello World")
   }
 
